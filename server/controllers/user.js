@@ -41,16 +41,17 @@ const newUser = TryCatch(async (req, res, next) => {
 
 // Login user and save token in cookie
 const login = TryCatch(async (req, res, next) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = await User.findOne({ username }).select("+password");
+  const user = await User.findOne({ email }).select("+password");
 
-  if (!user) return next(new ErrorHandler("Invalid Username or Password", 404));
+  if (!user) return next(new ErrorHandler("Invalid email or Password", 404));
 
   const isMatch = await compare(password, user.password);
 
   if (!isMatch)
-    return next(new ErrorHandler("Invalid Username or Password", 404));
+    return next(new ErrorHandler("Invalid email or Password", 404));
+     user.password = undefined;
 
   sendToken(res, user, 200, `Welcome Back, ${user.name}`);
 });
@@ -69,7 +70,7 @@ const getMyProfile = TryCatch(async (req, res, next) => {
 const logout = TryCatch(async (req, res) => {
   return res
     .status(200)
-    .cookie("chattu-token", "", { ...cookieOptions, maxAge: 0 })
+    .cookie("rocket-token", "", { ...cookieOptions, maxAge: 0 })
     .json({
       success: true,
       message: "Logged out successfully",
@@ -84,6 +85,8 @@ const searchUser = TryCatch(async (req, res) => {
 
   //  extracting All Users from my chats means friends or people I have chatted with
   const allUsersFromMyChats = myChats.flatMap((chat) => chat.members);
+  allUsersFromMyChats.push(req.user);
+  console.log(allUsersFromMyChats);
 
   // Finding all users except me and my friends
   const allUsersExceptMeAndFriends = await User.find({

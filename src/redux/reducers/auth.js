@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 
 const initialState = {
   user: null,
+  // ||JSON.parse(localStorage.getItem("rocket-data")),
   isAdmin: false,
   loader: true,
 };

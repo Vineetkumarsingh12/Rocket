@@ -18,17 +18,19 @@ import { VisuallyHiddenInput } from "../components/styles/StyledComponents";
 import { bgGradient } from "../constants/color";
 import { server } from "../constants/config";
 import { userExists } from "../redux/reducers/auth";
-import { usernameValidator } from "../utils/validators";
+
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleLogin = () => setIsLogin((prev) => !prev);
+  // const toggleLogin = () => setIsLogin((prev) => !prev);
 
   const name = useInputValidation("");
   const bio = useInputValidation("");
-  const username = useInputValidation("", usernameValidator);
+  // const username = useInputValidation("", usernameValidator);
+  const [email,setEmail]=useState("");
   const password = useInputValidation("");
 
   const avatar = useFileHandler("single");
@@ -49,10 +51,11 @@ const Login = () => {
     };
 
     try {
+      
       const { data } = await axios.post(
         `${server}/api/v1/user/login`,
         {
-          username: username.value,
+          email:email,
           password: password.value,
         },
         config
@@ -62,6 +65,7 @@ const Login = () => {
         id: toastId,
       });
     } catch (error) {
+     
       toast.error(error?.response?.data?.message || "Something Went Wrong", {
         id: toastId,
       });
@@ -80,7 +84,7 @@ const Login = () => {
     formData.append("avatar", avatar.file);
     formData.append("name", name.value);
     formData.append("bio", bio.value);
-    formData.append("username", username.value);
+    // formData.append("username", username.value);
     formData.append("password", password.value);
 
     const config = {
@@ -90,24 +94,24 @@ const Login = () => {
       },
     };
 
-    try {
-      const { data } = await axios.post(
-        `${server}/api/v1/user/new`,
-        formData,
-        config
-      );
+    // try {
+    //   const { data } = await axios.post(
+    //     `${server}/api/v1/user/new`,
+    //     formData,
+    //     config
+    //   );
 
-      dispatch(userExists(data.user));
-      toast.success(data.message, {
-        id: toastId,
-      });
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "Something Went Wrong", {
-        id: toastId,
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    //   dispatch(userExists(data.user));
+    //   toast.success(data.message, {
+    //     id: toastId,
+    //   });
+    // } catch (error) {
+    //   toast.error(error?.response?.data?.message || "Something Went Wrong", {
+    //     id: toastId,
+    //   });
+    // // } finally {
+    //   setIsLoading(false);
+    // }
   };
 
   return (
@@ -145,7 +149,7 @@ const Login = () => {
                 }}
                 onSubmit={handleLogin}
               >
-                <TextField
+                {/* <TextField
                   required
                   fullWidth
                   label="Username"
@@ -153,6 +157,17 @@ const Login = () => {
                   variant="outlined"
                   value={username.value}
                   onChange={username.changeHandler}
+                /> */}
+                  <TextField
+                  required
+                  fullWidth
+                  label="Email"
+                  margin="normal"
+                  variant="outlined"
+                  value={email}
+                  onChange={(e)=>{
+                       setEmail(e.target.value);
+                  }}
                 />
 
                 <TextField
@@ -183,14 +198,15 @@ const Login = () => {
                   OR
                 </Typography>
 
-                <Button
-                  disabled={isLoading}
-                  fullWidth
-                  variant="text"
-                  onClick={toggleLogin}
+                <Link
+                  // disabled={isLoading}
+                  // fullWidth
+                  // variant="text"
+                to="http://localhost:3000/login"
+                  
                 >
                   Sign Up Instead
-                </Button>
+                </Link>
               </form>
             </>
           ) : (
@@ -267,7 +283,7 @@ const Login = () => {
                   value={bio.value}
                   onChange={bio.changeHandler}
                 />
-                <TextField
+                {/* <TextField
                   required
                   fullWidth
                   label="Username"
@@ -275,13 +291,13 @@ const Login = () => {
                   variant="outlined"
                   value={username.value}
                   onChange={username.changeHandler}
-                />
+                /> */}
 
-                {username.error && (
+                {/* {username.error && (
                   <Typography color="error" variant="caption">
                     {username.error}
                   </Typography>
-                )}
+                )} */}
 
                 <TextField
                   required

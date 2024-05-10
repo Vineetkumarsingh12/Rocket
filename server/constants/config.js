@@ -8,6 +8,6 @@ const corsOptions = {
   credentials: true,
 };
 
-const CHATTU_TOKEN = "chattu-token";
+const ROCKET_TOKEN = "rocket-token";
 
-export { corsOptions, CHATTU_TOKEN };
+export { corsOptions, ROCKET_TOKEN};

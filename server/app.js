@@ -24,7 +24,7 @@ import { socketAuthenticator } from "./middlewares/auth.js";
 
 import userRoute from "./routes/user.js";
 import chatRoute from "./routes/chat.js";
-import adminRoute from "./routes/admin.js";
+
 
 dotenv.config({
   path: "./.env",
@@ -60,7 +60,7 @@ app.use(cors(corsOptions));
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/chat", chatRoute);
-app.use("/api/v1/admin", adminRoute);
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");

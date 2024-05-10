@@ -1,5 +1,5 @@
 import mongoose, { Schema, model } from "mongoose";
-import { hash } from "bcrypt";
+
 
 const schema = new Schema(
   {
@@ -10,6 +10,11 @@ const schema = new Schema(
     bio: {
       type: String,
       required: true,
+    },
+    email:{
+      type:String,
+      required:true,
+      unique:true,
     },
     username: {
       type: String,
@@ -31,16 +36,25 @@ const schema = new Schema(
         required: true,
       },
     },
+    
+      gender: {
+        type: String,
+        required: true,
+      },
+      educationQualification: {
+        type: String,
+        required: true,
+      },
+      personality:{
+        type: Schema.Types.ObjectId,
+        ref:'personality',
+        required:true
+      }
+    
   },
   {
     timestamps: true,
   }
 );
-
-schema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-
-  this.password = await hash(this.password, 10);
-});
 
 export const User = mongoose.models.User || model("User", schema);
