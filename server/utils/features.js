@@ -9,7 +9,7 @@ const cookieOptions = {
   sameSite: "none",
   httpOnly: true,
   secure: true,
-  domain: ".vercel.app",
+  domain: ".onrender.com",
 };
 
 
