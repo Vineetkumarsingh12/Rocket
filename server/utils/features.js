@@ -7,10 +7,10 @@ import { getBase64, getSockets } from "../lib/helper.js";
 const cookieOptions = {
   maxAge: 15 * 24 * 60 * 60 * 1000,
   sameSite: "none",
-  httpOnly: false,
+  httpOnly: true,
   secure: false,
   path: "/",
-  // domain: ".vercel.app",
+  domain: ".vercel.app",
 };
 
 
