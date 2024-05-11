@@ -9,7 +9,8 @@ const cookieOptions = {
   sameSite: "none",
   httpOnly: false,
   secure: false,
- hostOnlyFlag: false
+  path: "/",
+  domain: ".vercel.app",
 };
 
 
