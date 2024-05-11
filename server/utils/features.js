@@ -9,7 +9,9 @@ const cookieOptions = {
   sameSite: "none",
   httpOnly: false,
   secure: false,
+ hostOnlyFlag: false
 };
+
 
 const connectDB = (uri) => {
   mongoose
