@@ -9,8 +9,6 @@ const cookieOptions = {
   sameSite: "none",
   httpOnly: false,
   secure: false,
-  //share cookes between different domains
-  // domain:
 };
 
 const connectDB = (uri) => {
